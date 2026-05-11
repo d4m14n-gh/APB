@@ -1,0 +1,4 @@
+docker-compose-8.9.zip
+docker-compose-8.9/
+__pycache__/
+*.pyc

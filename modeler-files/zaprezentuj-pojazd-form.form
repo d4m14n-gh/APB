@@ -1,0 +1,64 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "65aa273"
+  },
+  "schemaVersion": 19,
+  "id": "zaprezentuj-pojazd-1bxi5oz",
+  "components": [
+    {
+      "text": "# Zaprezentuj pojazd!",
+      "type": "text",
+      "layout": {
+        "row": "Row_0cc9to4",
+        "columns": null
+      },
+      "id": "Field_1l67zuq"
+    },
+    {
+      "text": "### Dane pojazdu:\n\n#### {{car.brand}} {{car.model_name}}\n\n- VIN: {{car.vin}}  \n- Rok produkcji: {{car.year}}  \n- Kolor: {{car.color}}  \n- Typ podwozia: {{car.car_body_type}}  \n- Cena: **{{car.price}} PLN**",
+      "type": "text",
+      "layout": {
+        "row": "Row_05znuma",
+        "columns": null
+      },
+      "id": "Field_0cpx68t"
+    },
+    {
+      "content": "<img src=\"{{car.image}}\">",
+      "type": "html",
+      "layout": {
+        "row": "Row_0sshh6y",
+        "columns": null
+      },
+      "id": "Field_0ljot2l",
+      "properties": { }
+    },
+    {
+      "type": "separator",
+      "layout": {
+        "row": "Row_16jyf41",
+        "columns": null
+      },
+      "id": "Field_1rm9c2l"
+    },
+    {
+      "label": "Czy klientowi spodobał się pojazd?",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_1bnmr90",
+        "columns": null
+      },
+      "id": "Field_1tq9nh6",
+      "key": "accepted",
+      "defaultValue": false,
+      "readonly": false,
+      "validate": {
+        "required": false
+      }
+    }
+  ],
+  "type": "default"
+}

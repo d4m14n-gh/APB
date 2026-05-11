@@ -1,0 +1,137 @@
+{
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.9.0",
+  "exporter": {
+    "name": "Camunda Web Modeler",
+    "version": "65aa273"
+  },
+  "schemaVersion": 19,
+  "id": "Form_PreferencjePojazdu_C8",
+  "components": [
+    {
+      "text": "### Konfigurator Preferencji Klienta\nUzupełnij dane, aby system mógł prztygotować odpowiednia propozycje.",
+      "type": "text",
+      "id": "text_header",
+      "layout": {
+        "row": "Row_1malqt1"
+      }
+    },
+    {
+      "type": "separator",
+      "layout": {
+        "row": "Row_04t87ye",
+        "columns": null
+      },
+      "id": "Field_14i7tfn"
+    },
+    {
+      "label": "Marka pojazdu",
+      "values": [
+        {
+          "label": "Toyota",
+          "value": "toyota"
+        },
+        {
+          "label": "BMW",
+          "value": "bmw"
+        },
+        {
+          "label": "Audi",
+          "value": "audi"
+        },
+        {
+          "label": "Volkswagen",
+          "value": "volkswagen"
+        },
+        {
+          "label": "Mercedes-Benz",
+          "value": "mercedes"
+        }
+      ],
+      "type": "select",
+      "id": "Field_marka",
+      "key": "preferred_brand",
+      "validate": {
+        "required": true
+      },
+      "layout": {
+        "row": "Row_0l9o7qy"
+      },
+      "description": "Wybierz preferowaną markę pojazdu."
+    },
+    {
+      "label": "Typ nadwozia",
+      "values": [
+        {
+          "label": "Sedan",
+          "value": "sedan"
+        },
+        {
+          "label": "SUV",
+          "value": "suv"
+        },
+        {
+          "label": "Kombi",
+          "value": "kombi"
+        },
+        {
+          "label": "Hatchback",
+          "value": "hatchback"
+        },
+        {
+          "label": "Minivan",
+          "value": "minivan"
+        },
+        {
+          "label": "Coupe",
+          "value": "coupe"
+        }
+      ],
+      "type": "radio",
+      "id": "Field_typ",
+      "key": "preferred_body_type",
+      "layout": {
+        "row": "Row_1jbt2t3"
+      }
+    },
+    {
+      "label": "Budżet maksymalny (PLN)",
+      "type": "number",
+      "id": "Field_budzet",
+      "key": "preferred_max_price",
+      "validate": {
+        "required": true,
+        "min": "10000",
+        "max": "1000000"
+      },
+      "layout": {
+        "row": "Row_0x1xmyf"
+      },
+      "description": "Wybierz maksymalną cenę.",
+      "defaultValue": 100000
+    },
+    {
+      "type": "separator",
+      "layout": {
+        "row": "Row_1l88xjp",
+        "columns": null
+      },
+      "id": "Field_1rczduz"
+    },
+    {
+      "label": "Zatwierdź",
+      "type": "checkbox",
+      "layout": {
+        "row": "Row_095xbdf",
+        "columns": null
+      },
+      "id": "Field_1fbnsmi",
+      "key": "approved",
+      "validate": {
+        "required": true
+      },
+      "description": "Zaznacz, aby potwierdzić zatwierdzenie konfiguracji."
+    }
+  ],
+  "type": "default"
+}

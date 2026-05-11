@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="65aa273" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.9.0">
+  <bpmn:collaboration id="Collaboration_0ugxoc4">
+    <bpmn:participant id="Participant_1dpwbz3" name="Dealer samochodowy" processRef="Process_6ugyl7y" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_6ugyl7y" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_0yw2cfk">
+      <bpmn:lane id="Lane_13wnkke" name="Serwisant" />
+      <bpmn:lane id="Lane_1du6lw2" name="System">
+        <bpmn:flowNodeRef>Activity_0gykq7b</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_03xcqp3</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_0u7dliz" name="Sprzedawca">
+        <bpmn:flowNodeRef>Event_0nrr1rs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1rxczw8</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0ogucxs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1h7c3qd</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_033r7fp</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ms1gcn</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1kwsath</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Event_0nrr1rs" name="Klienta odnotowano">
+      <bpmn:outgoing>Flow_0ejmc86</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0ejmc86" sourceRef="Event_0nrr1rs" targetRef="Activity_1kwsath" />
+    <bpmn:sequenceFlow id="Flow_0yp09eu" sourceRef="Activity_1kwsath" targetRef="Gateway_1rxczw8" />
+    <bpmn:exclusiveGateway id="Gateway_1rxczw8">
+      <bpmn:incoming>Flow_0yp09eu</bpmn:incoming>
+      <bpmn:incoming>Flow_0eg6zvd</bpmn:incoming>
+      <bpmn:outgoing>Flow_0d255ub</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0d255ub" sourceRef="Gateway_1rxczw8" targetRef="Activity_03xcqp3" />
+    <bpmn:sequenceFlow id="Flow_06vbvzq" sourceRef="Activity_03xcqp3" targetRef="Activity_0gykq7b" />
+    <bpmn:serviceTask id="Activity_0gykq7b" name="Sprawdź dostępność pojazdu">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:input source="=recommended_model_id" target="recommended_model_id" />
+          <zeebe:output source="=is_available" target="is_available" />
+          <zeebe:output source="=car" target="car" />
+        </zeebe:ioMapping>
+        <zeebe:taskDefinition type="is_available" retries="1" />
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;is_available&#34;: true,&#10;  &#34;car&#34;: {&#10;    &#34;vin&#34;: &#34;1HGCM82633A123456&#34;,&#10;    &#34;model_id&#34;: &#34;BMW_X3&#34;,&#10;    &#34;brand&#34;: &#34;BMW&#34;,&#10;    &#34;model_name&#34;: &#34;X3&#34;,&#10;    &#34;year&#34;: 2023,&#10;    &#34;color&#34;: &#34;black&#34;,&#10;    &#34;car_body_type&#34;: &#34;suv&#34;,&#10;    &#34;price&#34;: 245000,&#10;    &#34;image&#34;: &#34;https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Toyota_Corolla_Limousine_Hybrid_Genf_2019_1Y7A5576.jpg/960px-Toyota_Corolla_Limousine_Hybrid_Genf_2019_1Y7A5576.jpg&#34;&#10;  }&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06vbvzq</bpmn:incoming>
+      <bpmn:outgoing>Flow_007i1c8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_0ogucxs" name="Zaprezentuj pojazd">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;&#34;accepted&#34;: true&#10;}" />
+        </zeebe:properties>
+        <zeebe:formDefinition formId="zaprezentuj-pojazd-1bxi5oz" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_06m9v3d</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ugrb9g</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1h7c3qd" name="Czy pojazd jest dostępny do prezentacji?">
+      <bpmn:incoming>Flow_007i1c8</bpmn:incoming>
+      <bpmn:outgoing>Flow_06m9v3d</bpmn:outgoing>
+      <bpmn:outgoing>Flow_150rp0f</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_06m9v3d" name="Tak" sourceRef="Gateway_1h7c3qd" targetRef="Activity_0ogucxs">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=is_available = true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_150rp0f" name="Nie" sourceRef="Gateway_1h7c3qd" targetRef="Activity_1ms1gcn">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=is_available = false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ugrb9g" sourceRef="Activity_0ogucxs" targetRef="Event_033r7fp" />
+    <bpmn:endEvent id="Event_033r7fp" name="koniec testowy">
+      <bpmn:incoming>Flow_1ugrb9g</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_007i1c8" sourceRef="Activity_0gykq7b" targetRef="Gateway_1h7c3qd" />
+    <bpmn:userTask id="Activity_1ms1gcn" name="Wyklucz pojazd i powiadom klienta o braku dostępności">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;excluded_models&#34;: [&#10;    &#34;BMW_X3&#34;&#10;  ]&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_150rp0f</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eg6zvd</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0eg6zvd" sourceRef="Activity_1ms1gcn" targetRef="Gateway_1rxczw8" />
+    <bpmn:userTask id="Activity_1kwsath" name="Wprowadź potrzeby klienta do systemu">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:priorityDefinition priority="50" />
+        <zeebe:formDefinition formId="Form_PreferencjePojazdu_C8" />
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#10;  &#34;preferred_brand&#34;: &#34;bmw&#34;,&#10;  &#34;preferred_body_type&#34;: &#34;suv&#34;,&#10;  &#34;preferred_max_price&#34;: 250000,&#10;  &#34;approved&#34;: true&#10;}" />
+        </zeebe:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ejmc86</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yp09eu</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="Activity_03xcqp3" name="Dopasuj optymalny model do preferencji">
+      <bpmn:extensionElements>
+        <zeebe:properties>
+          <zeebe:property name="camundaModeler:exampleOutputJson" value="{&#34;recommended_model_id&#34;: &#34;BMW_X3&#34;}" />
+        </zeebe:properties>
+        <zeebe:script expression="=if preferred_brand = &#34;toyota&#34;&#10;   and preferred_body_type = &#34;suv&#34;&#10;then &#34;Toyota_RAV4&#34;&#10;&#10;  &#10;else if preferred_brand = &#34;toyota&#34;&#10;  and preferred_body_type = &#34;sedan&#34;&#10;then &#34;Toyota_Corolla&#34;&#10;&#10;  &#10;else if preferred_brand = &#34;bmw&#34;&#10;   and preferred_body_type = &#34;suv&#34; &#10;then &#34;BMW_X3&#34;&#10;&#10;  &#10;else if preferred_brand = &#34;audi&#34;&#10;   and preferred_body_type = &#34;kombi&#34; &#10;then &#34;Audi_A4&#34;&#10;&#10;  &#10;else if preferred_brand = &#34;mercedes&#34;&#10;   and preferred_body_type = &#34;sedan&#34;&#10;then &#34;Mercedes_C-Class&#34;&#10;&#10;  &#10;else if preferred_brand = &#34;volkswagen&#34;&#10;   and preferred_body_type = &#34;hatchback&#34;&#10;   &#10;then &#34;Volkswagen_Golf&#34;&#10;&#10;else&#10;  &#34;Toyota_Corolla&#34;" resultVariable="recommended_model_id" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0d255ub</bpmn:incoming>
+      <bpmn:outgoing>Flow_06vbvzq</bpmn:outgoing>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0ugxoc4">
+      <bpmndi:BPMNShape id="BPMNShape_18mztsl" bpmnElement="Participant_1dpwbz3" isHorizontal="true">
+        <dc:Bounds x="-2000" y="300" width="5920" height="1460" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1h33951" bpmnElement="Lane_0u7dliz" isHorizontal="true">
+        <dc:Bounds x="-1970" y="300" width="5890" height="748" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0r56pmw" bpmnElement="Lane_1du6lw2" isHorizontal="true">
+        <dc:Bounds x="-1970" y="1048" width="5890" height="362" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0riy48p" bpmnElement="Lane_13wnkke" isHorizontal="true">
+        <dc:Bounds x="-1970" y="1410" width="5890" height="350" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dy9bu8_di" bpmnElement="Event_0nrr1rs">
+        <dc:Bounds x="-1928" y="800" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-1939" y="843" width="60" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1rxczw8_di" bpmnElement="Gateway_1rxczw8" isMarkerVisible="true">
+        <dc:Bounds x="-1465" y="793" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0q75y6e_di" bpmnElement="Activity_0gykq7b">
+        <dc:Bounds x="-1100" y="1190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1bogy89_di" bpmnElement="Activity_0ogucxs">
+        <dc:Bounds x="-710" y="710" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_02imdkn" bpmnElement="Gateway_1h7c3qd" isMarkerVisible="true">
+        <dc:Bounds x="-895" y="725" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-980" y="730" width="75" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_033r7fp_di" bpmnElement="Event_033r7fp">
+        <dc:Bounds x="-418" y="732" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-436" y="775" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02lzmcc_di" bpmnElement="Activity_1ms1gcn">
+        <dc:Bounds x="-1210" y="560" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dxm3q4_di" bpmnElement="Activity_1kwsath">
+        <dc:Bounds x="-1730" y="778" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jr2llr_di" bpmnElement="Activity_03xcqp3">
+        <dc:Bounds x="-1330" y="1190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ejmc86_di" bpmnElement="Flow_0ejmc86">
+        <di:waypoint x="-1892" y="818" />
+        <di:waypoint x="-1730" y="818" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yp09eu_di" bpmnElement="Flow_0yp09eu">
+        <di:waypoint x="-1630" y="818" />
+        <di:waypoint x="-1465" y="818" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0d255ub_di" bpmnElement="Flow_0d255ub">
+        <di:waypoint x="-1440" y="843" />
+        <di:waypoint x="-1440" y="1230" />
+        <di:waypoint x="-1330" y="1230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06vbvzq_di" bpmnElement="Flow_06vbvzq">
+        <di:waypoint x="-1230" y="1230" />
+        <di:waypoint x="-1100" y="1230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06m9v3d_di" bpmnElement="Flow_06m9v3d">
+        <di:waypoint x="-845" y="750" />
+        <di:waypoint x="-710" y="750" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-786" y="732" width="19" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_150rp0f_di" bpmnElement="Flow_150rp0f">
+        <di:waypoint x="-870" y="725" />
+        <di:waypoint x="-870" y="600" />
+        <di:waypoint x="-1110" y="600" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="-863" y="659" width="17" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ugrb9g_di" bpmnElement="Flow_1ugrb9g">
+        <di:waypoint x="-610" y="750" />
+        <di:waypoint x="-418" y="750" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_007i1c8_di" bpmnElement="Flow_007i1c8">
+        <di:waypoint x="-1000" y="1230" />
+        <di:waypoint x="-870" y="1230" />
+        <di:waypoint x="-870" y="775" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eg6zvd_di" bpmnElement="Flow_0eg6zvd">
+        <di:waypoint x="-1210" y="600" />
+        <di:waypoint x="-1440" y="600" />
+        <di:waypoint x="-1440" y="793" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
