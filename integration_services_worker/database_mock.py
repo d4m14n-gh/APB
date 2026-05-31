@@ -1,5 +1,5 @@
 from typing import List, Optional
-import utils
+# import utils
 
 class Car:
     def __init__(self, vin: str, model_id: str, brand: str, model_name: str, year: int, color: str, car_body_type: str, price: float, image: Optional[str] = None):
@@ -11,7 +11,7 @@ class Car:
         self.color = color
         self.car_body_type = car_body_type
         self.price = price
-        self.image = utils.image_to_base64_compressed(image) if image else None
+        self.image = image #utils.image_to_base64_compressed(image) if image else None
      
     def to_dict(self):
         return self.__dict__
